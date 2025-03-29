@@ -20,6 +20,7 @@ interface PushToGithubProps {
 const PushToGithub: React.FC<PushToGithubProps> = ({ projectId, fileTree, paymentDone }) => {
   const [commitMessageModalOpen, setCommitMessageModalOpen] = useState(false);
   const [depositFundsModalOpen, setDepositFundsModalOpen] = useState(false);
+  //@ts-ignore  
   const [commitMessage, setCommitMessage] = useState<string | null>(null);
   const { address, isConnected } = useAccount(); // Get wallet address
   const [balance, setBalance] = useState<number>(12);

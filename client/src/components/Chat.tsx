@@ -12,7 +12,6 @@ import { debounce } from 'lodash';
 import { cleanNestedFileTree, updateFileContentsInTree } from "../utils/cleanNestedFileTree";
 import PushToGithub from "./PushToGithub";
 import { makePayment } from "../utils/makePayment";
-import { useAccount } from "wagmi";
 
 // FileExplorer Component
 const FileExplorer = ({ fileTree, setCurrentFile, openFiles, setOpenFiles, parentPath = "" }: { 
@@ -123,7 +122,6 @@ const Chat = ({ projectId }: { projectId: string }) => {
   const [fileToRename, setFileToRename] = useState<string | null>(null);
   const [currenProcess, setCurrentProcess] = useState<any>(null)
   const [loading, setLoading] = useState(true);
-  const {address} = useAccount()
   const [paymentDone, setPaymentDone] = useState(false)
 
   /** ✅ Fetch user on mount */

@@ -16,6 +16,7 @@ const Navbar = () => {
   const { disconnect } = useDisconnect(); // Disconnect wallet
   const navigate = useNavigate(); // Navigation hook
   const [balance, setBalance] = useState(12.00)
+  //@ts-ignore
   const [errorMessage, setErrorMessage] = useState<string>()
   // Sample balance and wallet address for demonstration 
   const walletAddress = address || '0x0'; // Use the connected wallet address
