@@ -1,7 +1,9 @@
 import { Rocket } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { useNavigate } from 'react-router-dom';
 
 export function Hero() {
+  const navigate = useNavigate()
   return (
     <div className="relative">
       <div className="absolute inset-0 bg-cyber-glow opacity-30" />
@@ -14,7 +16,7 @@ export function Hero() {
             Harness the power of decentralized AI to write, review, and deploy smart contracts with confidence
           </p>
           <div className="flex justify-center space-x-4">
-            <Button variant="primary" icon={Rocket}>Get Started</Button>
+            <Button variant="primary" icon={Rocket} onClick={()=> navigate('/signup')}>Get Started</Button>
             <Button variant="secondary">Learn More</Button>
           </div>
         </div>
