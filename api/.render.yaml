@@ -1,0 +1,11 @@
+services:
+  - name: bun-express-app
+    type: web
+    runtime: bun
+    buildCommand: "bun install"
+    startCommand: "bun run server.ts"
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
