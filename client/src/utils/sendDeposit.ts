@@ -25,7 +25,7 @@
     import { ethers } from "ethers";
     import { getContractWithSigner } from "../../config"; // Ensure this is correctly imported
     
-    export const deposit = async (amount: string) => {
+    export const deposit = async (amount: number) => {
       try {
         // Convert amount to Wei
         const depositAmount = ethers.parseUnits(`${amount}`, "ether");

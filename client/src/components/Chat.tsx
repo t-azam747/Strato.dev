@@ -179,7 +179,7 @@ const Chat = ({ projectId }: { projectId: string }) => {
       if (data.message.startsWith("@ai ")) {
 
         try {
-          const payment = await makePayment(address || '0x0')
+          const payment = await makePayment()
           if(!payment){
             setMessages((prev) => [
               ...prev,

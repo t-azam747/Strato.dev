@@ -5,7 +5,7 @@ FROM oven/bun:latest
 WORKDIR /app
 
 # Copy package.json, bun.lockb, and install dependencies
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 RUN bun install
 
 # Copy the rest of the app
@@ -15,4 +15,4 @@ COPY . .
 EXPOSE ${PORT}
 
 # Start the server
-CMD ["bun", "run", "server.ts"]
+CMD ["bun", "run", "src/index.ts"]

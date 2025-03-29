@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -40,7 +40,7 @@ const Navbar = () => {
     // Add logic to handle deposit
     try {
       // Attempt to perform deposit
-      const result = await deposit(amount, walletAddress);
+      const result = await deposit(amount);
       console.log(result);
       
       // Update balance if deposit succeeded
@@ -63,7 +63,7 @@ const Navbar = () => {
     // Add logic to handle withdrawal
     try {
       // Attempt to perform deposit
-      const result = await withdrawFunds(walletAddress);
+      const result = await withdrawFunds();
       console.log(result);
       
       // Update balance if deposit succeeded
