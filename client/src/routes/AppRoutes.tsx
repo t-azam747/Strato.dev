@@ -7,13 +7,15 @@ import { Projects } from '../pages/Projects.tsx'
 import Navbar from '../components/Navbar'
 import Wallet from '../components/Wallet.tsx'
 import ConnectWallet from '../pages/ConnectWallet.tsx'
+import LandingPage from '../pages/Landing.tsx'
 
 export const AppRoutes = ()=> {
   return (
     <BrowserRouter>
       <Wallet>
         <Routes>
-        <Route path='/' element={
+        <Route path='/' element={<LandingPage/>}></Route>
+        <Route path='/home' element={
           <>
             <ProtectedRoute component={Navbar}/>
             <ProtectedRoute component={Home}/>

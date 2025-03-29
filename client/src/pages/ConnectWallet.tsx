@@ -9,7 +9,7 @@ const ConnectWallet = () => {
 
   useEffect(() => {
     if (isConnected) {
-      navigate("/"); // Redirect to Home on successful login
+      navigate("/home"); // Redirect to Home on successful login
     }
   }, [isConnected, navigate]);
 

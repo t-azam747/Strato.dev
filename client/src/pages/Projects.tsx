@@ -47,7 +47,7 @@ export const Projects = () => {
           <h2 className="text-2xl font-semibold bg-gray-800/80 px-6 py-4 rounded-lg shadow-lg">
             No projects exist 🚀
           </h2>
-          <Navigate to="/" />
+          <Navigate to="/home" />
         </div>
       )}
     </>

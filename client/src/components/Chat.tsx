@@ -230,25 +230,27 @@ const Chat = ({ projectId }: { projectId: string }) => {
       }
     
 
-      if (data.message.startsWith("@git ")) {
-        const repo = data.message.slice(5);
-        
-        // Store the repo URL in local storage
-        localStorage.setItem(`${projectId}_repoUrl`, repo);
+    }
+    if (data.message.startsWith("@git ")) {
+      const repo = data.message.slice(5);
+      
+      // Store the repo URL in local storage
+      localStorage.setItem(`${projectId}_repoUrl`, repo);
 
-        try {
-          const response = await api.post('/git/create', {
-            repo
-          });
-          console.log(response.data);
-          webContainer?.mount(response.data);
-          setFileTree(response.data);
-          saveFileTreeDebounced(response.data);
-        } catch (error) {
-          console.log("GITHUB ERROR", error);
-        }
+      try {
+        const response = await api.post('/git/create', {
+          repo
+        });
+        console.log("sdfsdf",response.data);
+        webContainer?.mount(response.data);
+        setFileTree(response.data);
+        saveFileTreeDebounced(response.data);
+      } catch (error) {
+        console.log("GITHUB ERROR", error);
       }
-    }});
+    }
+  
+  });
 
 
     return () => {
