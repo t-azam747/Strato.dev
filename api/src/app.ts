@@ -16,6 +16,14 @@ app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true 
 }))
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://strato-dev.vercel.app"); // Replace with frontend URL
+  res.header("Access-Control-Allow-Credentials", "true"); // ✅ Required for authentication!
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/project', projectRouter)
 app.use('/api/v1/ai', aiRouter)
