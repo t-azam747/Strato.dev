@@ -5,28 +5,20 @@ import { useAccount } from "wagmi";
 
 const ConnectWallet = () => {
   const navigate = useNavigate();
-  const { isConnected } = useAccount(); // Check if the user is connected
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     if (isConnected) {
-      navigate("/home"); // Redirect to Home on successful login
+      navigate("/home");
     }
   }, [isConnected, navigate]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
-      {/* Blurred Glassmorphic Card */}
-      <div className="relative bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-xl w-96 border border-gray-700">
-        
-
-        {/* Heading */}
-        <h1 className="text-2xl font-semibold mb-4 text-gray-100 text-center">Connect Your Wallet</h1>
-        
-        {/* Description */}
-        <p className="mb-6 text-gray-400 text-center">Please connect your wallet to proceed.</p>
-        
-        {/* Wallet Connect Button */}
-        <div className="flex justify-center">
+    <div className="flex justify-center items-center h-screen bg-gray-800 text-white">
+      <div className="relative bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-96 border border-white/20">
+        <h1 className="text-2xl font-semibold mb-4 text-white text-center">Connect Your Wallet</h1>
+        <p className="mb-6 text-gray-300 text-center">Please connect your wallet to proceed.</p>
+        <div className="flex justify-center ">
           <ConnectButton />
         </div>
       </div>

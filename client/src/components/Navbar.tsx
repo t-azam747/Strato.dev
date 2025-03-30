@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import GitHubConfigModal from './GitHubConfigModal';
 import DepositFundsModal from './DepositFundsModal';
 import { deposit } from '../utils/sendDeposit';
 import { withdrawFunds } from '../utils/getWithdraw';
 import { getBalance } from '../utils/getBalance';
+import { FaEthereum } from "react-icons/fa";
+
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [depositFundsModalOpen, setDepositFundsModalOpen] = useState(false);
   const { address, isConnected } = useAccount(); // Get wallet address
   const { disconnect } = useDisconnect(); // Disconnect wallet
@@ -84,41 +86,47 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-gray-900 text-white shadow-md">
+    <nav className="flex justify-between items-center px-6 py-4 bg-gray-800/90 text-white shadow-md">
       {/* App Name */}
-      <h1 className="text-xl font-semibold">My App</h1>
+      <h1 className="text-xl font-semibold">Strato.dev</h1>
 
       {/* Buttons Section */}
       <div className="flex space-x-4">
         {/* Deposit Funds Button */}
         <button
-          className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition"
+          className="flex items-center px-4 py-2 text-2xl  bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition"
           onClick={() => setDepositFundsModalOpen(true)}
         >
-          <FontAwesomeIcon icon={faDollarSign} className="mr-2" /> Deposit Funds
+          <FaEthereum/>
         </button>
 
         {/* GitHub Configuration Button */}
         <button
-          className="flex items-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition"
+          className="flex items-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition text-2xl"
           onClick={() => setIsModalOpen(true)}
         >
-          <FontAwesomeIcon icon={faGithub} className="mr-2" /> GitHub Configuration
+          <FontAwesomeIcon icon={faGithub} />
         </button>
 
         {/* Wallet Address Display */}
         {isConnected ? (
-          <div className="flex items-center space-x-4 bg-gray-800 px-4 py-2 rounded-lg">
-            <span className="text-sm text-gray-300">
-              {address?.slice(0, 6)}...{address?.slice(-4)}
-            </span>
+          <div
+          className={`flex items-center bg-gray-800 px-4 py-2 rounded-lg relative transition-all duration-300 ${expanded ? 'space-x-4' : 'space-x-2'}`}
+          onMouseEnter={() => setExpanded(true)}
+          onMouseLeave={() => setExpanded(false)}
+        >
+          <span className="text-sm text-gray-300">
+            {address?.slice(0, 6)}...{address?.slice(-4)}
+          </span>
+          {expanded && (
             <button
               onClick={() => disconnect()}
               className="px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
             >
               Disconnect
             </button>
-          </div>
+          )}
+        </div>
         ) : (
           <span className="text-gray-400">Not Connected</span>
         )}
