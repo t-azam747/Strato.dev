@@ -11,6 +11,7 @@ import { getBalance } from '../utils/getBalance';
 import { deposit } from '../utils/sendDeposit';
 import { withdrawFunds } from '../utils/getWithdraw';
 import { FaEthereum } from 'react-icons/fa';
+import { FileText, Plus, X, Edit2, Check } from "lucide-react";
 
 interface PushToGithubProps {
   projectId: string;
@@ -120,49 +121,49 @@ const PushToGithub: React.FC<PushToGithubProps> = ({ projectId, fileTree, paymen
   };
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-gray-800/90 text-white">
-      {/* App Name */}
-      <h1 className="text-xl font-semibold">Strato.dev</h1>
+    <nav className="flex justify-between items-center px-3 py-2 bg-gray-800/90 text-white border-b border-gray-700">
+      {/* App Name - More compact */}
+      <h1 className="text-sm font-semibold">Strato.dev</h1>
 
-      {/* Buttons Section */}
-      <div className="flex space-x-4">
-        {/* Deposit Funds Button */}
+      {/* Buttons Section - More compact */}
+      <div className="flex space-x-2">
+        {/* Deposit Funds Button - More compact */}
         <button
-          className="flex items-center px-4 py-2 bg-gray-700 text-2xl hover:bg-gray-800 text-white rounded-lg transition"
+          className="flex items-center px-2 py-1 bg-gray-700 text-xl hover:bg-gray-600 text-white rounded-md transition"
           onClick={() => setDepositFundsModalOpen(true)}
         >
           <FaEthereum/>
         </button>
 
-        {/* Push to GitHub Button */}
+        {/* Push to GitHub Button - More compact */}
         <button
-          className="flex items-center px-4 text-2xl py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition"
+          className="flex items-center px-2 py-1 text-xl bg-gray-700 hover:bg-gray-600 text-white rounded-md transition"
           onClick={handlePushToGithub}
         >
           <FontAwesomeIcon icon={faGithub} />
         </button>
 
-        {/* Wallet Address Display */}
+        {/* Wallet Address Display - More compact */}
         {isConnected ? (
           <div
-            className={`flex items-center bg-gray-800 px-4 py-2 rounded-lg relative transition-all duration-300 ${expanded ? 'space-x-4' : 'space-x-2'}`}
+            className={`flex items-center bg-gray-700 px-2 py-1 rounded-md relative transition-all duration-300 ${expanded ? 'space-x-2' : 'space-x-1'}`}
             onMouseEnter={() => setExpanded(true)}
             onMouseLeave={() => setExpanded(false)}
           >
-            <span className="text-sm text-gray-300">
+            <span className="text-xs text-gray-300">
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </span>
             {expanded && (
               <button
                 onClick={() => disconnect()}
-                className="px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
+                className="px-2 py-0.5 text-xs bg-red-600 hover:bg-red-700 text-white rounded-md transition"
               >
                 Disconnect
               </button>
             )}
           </div>
         ) : (
-          <span className="text-gray-400">Not Connected</span>
+          <span className="text-xs text-gray-400">Not Connected</span>
         )}
       </div>
 

@@ -15,7 +15,7 @@ import { useState, useMemo, useEffect, ReactNode } from 'react';
 const config = getDefaultConfig({
   appName: 'ai-agent',
   projectId: 'YOUR_PROJECT_ID',
-  chains: [localhost, avalancheFuji, avalanche],
+  chains: [avalancheFuji,localhost, avalanche],
 });
 
 const AuthAPI = import.meta.env.VITE_API_URL;

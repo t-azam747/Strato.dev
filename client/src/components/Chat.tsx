@@ -14,27 +14,60 @@ import PushToGithub from "./PushToGithub";
 import { makePayment } from "../utils/makePayment";
 
 // FileExplorer Component
-const FileExplorer = ({ fileTree, setCurrentFile, openFiles, setOpenFiles, parentPath = "" }: {
+const FileExplorer = ({ fileTree, setCurrentFile, openFiles, setOpenFiles, setFileTree, parentPath = "" }: {
   fileTree: Record<string, any>;
   setCurrentFile: (file: string) => void;
   openFiles: string[];
   setOpenFiles: (files: string[]) => void;
+  setFileTree: (tree: Record<string, any>) => void;
   parentPath?: string;
 }) => {
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({});
+  const [editingFile, setEditingFile] = useState<string | null>(null);
+  const [newFileName, setNewFileName] = useState("");
 
   const toggleFolder = (folderName: string) => {
     setOpenFolders((prev) => ({
       ...prev,
-      [folderName]: !prev[folderName], // Toggle folder open state
+      [folderName]: !prev[folderName],
     }));
+  };
+
+  const handleDoubleClick = (fullPath: string, name: string) => {
+    setEditingFile(fullPath);
+    setNewFileName(name);
+  };
+
+  const handleRename = (oldPath: string) => {
+    const lastSlashIndex = oldPath.lastIndexOf('/');
+    const parentDir = lastSlashIndex !== -1 ? oldPath.substring(0, lastSlashIndex) : '';
+    const newPath = parentDir ? `${parentDir}/${newFileName}` : newFileName;
+
+    // Update fileTree with the new name
+    const updatedTree = { ...fileTree };
+    const fileContent = { ...updatedTree[oldPath] };
+    delete updatedTree[oldPath];
+    updatedTree[newPath] = fileContent;
+
+    // Update the file tree in parent component
+    setFileTree(updatedTree);
+
+    // Save changes to server
+    saveFileTreeDebounced(updatedTree);
+
+    // Update open files if the renamed file was open
+    if (openFiles.includes(oldPath)) {
+      setOpenFiles(openFiles.map(file => file === oldPath ? newPath : file));
+    }
+
+    setEditingFile(null);
   };
 
   return (
     <div className="p-2">
       {Object.keys(fileTree).map((name) => {
         const item = fileTree[name];
-        const fullPath = parentPath ? `${parentPath}/${name}` : name; // Ensure full path
+        const fullPath = parentPath ? `${parentPath}/${name}` : name;
 
         if (item.directory) {
           return (
@@ -54,7 +87,8 @@ const FileExplorer = ({ fileTree, setCurrentFile, openFiles, setOpenFiles, paren
                     setCurrentFile={setCurrentFile}
                     openFiles={openFiles}
                     setOpenFiles={setOpenFiles}
-                    parentPath={fullPath} // Pass full path
+                    setFileTree={setFileTree}
+                    parentPath={fullPath}
                   />
                 </div>
               )}
@@ -66,14 +100,37 @@ const FileExplorer = ({ fileTree, setCurrentFile, openFiles, setOpenFiles, paren
               key={fullPath}
               className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-700/80 transition-all duration-200"
               onClick={() => {
-                setCurrentFile(fullPath); // Use full path
+                setCurrentFile(fullPath);
                 if (!openFiles.includes(fullPath)) {
                   setOpenFiles([...openFiles, fullPath]);
                 }
               }}
+              onDoubleClick={(e) => {
+                e.preventDefault();
+                handleDoubleClick(fullPath, name);
+              }}
             >
               <FileText size={16} className="mr-2 text-gray-300" />
-              <span className="text-sm">{name}</span>
+              {editingFile === fullPath ? (
+                <input
+                  type="text"
+                  value={newFileName}
+                  onChange={(e) => setNewFileName(e.target.value)}
+                  onBlur={() => handleRename(fullPath)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleRename(fullPath);
+                    } else if (e.key === 'Escape') {
+                      setEditingFile(null);
+                    }
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  autoFocus
+                  className="bg-gray-600 text-white text-sm px-2 py-1 rounded outline-none"
+                />
+              ) : (
+                <span className="text-sm">{name}</span>
+              )}
             </div>
           );
         }
@@ -440,6 +497,7 @@ const Chat = ({ projectId }: { projectId: string }) => {
               setCurrentFile={setCurrentFile}
               openFiles={openFiles}
               setOpenFiles={setOpenFiles}
+              setFileTree={setFileTree}
             />
 
           </div>
